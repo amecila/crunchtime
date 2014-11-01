@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
   <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
   <link rel="stylesheet" href="bower_components/angular-material/themes/default-theme.css">
+  <link rel="stylesheet" href="bower_components/angular-material/themes/red-theme.css">
+  <link rel="stylesheet" href="bower_components/angular-material/themes/yellow-theme.css">
+  <link rel="stylesheet" href="bower_components/angular-material/themes/green-theme.css">
+  <link rel="stylesheet" href="bower_components/angular-material/themes/orange-theme.css">
   <link rel="stylesheet" href="css/app.css">
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
@@ -39,13 +43,16 @@
     </md-whiteframe>
   </div>
   <div layout="vertical" layout-fill class="task-list">
-    <md-whiteframe ng-repeat="todo in todos | orderBy: 'endTime'" class="md-whiteframe-z1" layout layout-align="center center">
-      <div class=" md-tile-content">
-        <div class="task-desc">{{todo.description}}</div>
-        <div class="task-countdown">{{todo.countdown}}</div>
-      </div>
-      <div class="md-tile-right task-done"><md-button ng-click="done($index)" class="md-raised">Done</md-button></div>
-    </md-whiteframe>
+    <md-content ng-repeat="todo in todos | orderBy: 'endTime'" >
+      <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center" md-theme="{{todo.theme}}">
+        <div class=" md-tile-content">
+          <div class="task-desc">{{todo.description}}</div>
+          <div class="task-countdown">{{todo.countdown}}</div>
+          <md-progress-linear mode="determinate" ng-value="todo.percentageCompleted"></md-progress-linear>
+        </div>
+        <div class="md-tile-right task-done"><md-button ng-click="done($index)" class="md-raised">Done</md-button></div>
+      </md-whiteframe>
+    </md-content>
   </div>
 </div>
 
