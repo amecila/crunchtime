@@ -16,27 +16,36 @@
   <link rel="stylesheet" href="css/app.css">
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
-<body>
+<body ng-controller="crunchtimeAppCtrl">
 <div layout="vertical" layout-align="start center">
   <div><h1>Crunchtime</h1></div>
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-  <div ng-controller="crunchtimeAppCtrl">
-    <div id="add-todo">
-      <input type="text" placeholder="New Task"
-           ng-model="newTodo" ng-keyup="add($event)" />
-    </div>
-    <h2>You've got {{todos.length}} things to do:</h2>
-      <ul class="todo-list" ng-repeat="todo in todos">
-        <li>
-          <span>{{todo.description}}</span>
-          <span>{{todo.countdown}}</span>
-          <button ng-click="done($index)">Done</button>
-        </li>
-      </ul>
-
+  <div id="add-todo">
+    <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
+      <md-content>
+        <form novalidate style="padding:20px">
+          <div class="row">
+            <md-text-float label="Task" ng-model="newTodo"></md-text-float>
+            <md-text-float label="Date" ng-model="dueDate"></md-text-float>
+            <md-text-float label="Month" ng-model="dueMonth"></md-text-float>
+            <md-text-float label="Year" ng-model="dueYear"></md-text-float>
+            <md-button ng-click="add()">Add Task</md-button>
+          </div>
+          </form>
+      </md-content>
+    </md-whiteframe>
+  </div>
+  <div layout="vertical" layout-fill class="task-list">
+    <md-whiteframe ng-repeat="todo in todos | orderBy: 'endTime'" class="md-whiteframe-z1" layout layout-align="center center">
+      <div class=" md-tile-content">
+        <div class="task-desc">{{todo.description}}</div>
+        <div class="task-countdown">{{todo.countdown}}</div>
+      </div>
+      <div class="md-tile-right task-done"><md-button ng-click="done($index)" class="md-primary">Done</md-button></div>
+    </md-whiteframe>
   </div>
 </div>
 
