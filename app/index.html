@@ -17,21 +17,38 @@
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
-  <div layout="vertical" layout-align="start center">
-    <div><h1>Crunchtime</h1></div>
-  </div>
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
+<div layout="vertical" layout-align="start center">
+  <div><h1>Crunchtime</h1></div>
+</div>
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
 
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-aria/angular-aria.js"></script>
-  <script src="bower_components/angular-animate/angular-animate.js"></script>
-  <script src="bower_components/hammerjs/hammer.js"></script>
-  <script src="bower_components/angular-material/angular-material.js"></script>
-  <script src="app.js"></script>
+  <div class="page-container" ng-controller="crunchtimeAppCtrl">
+    <h2>You've got {{todos.length}} things to do:</h2>
+      <ul class="todo-list" ng-repeat="todo in todos track by $index">
+        <li>
+          <span>{{todo}}</span>
+          <button ng-click="done(todo)">Done</button>
+        </li>
+      </ul>
+
+    <ul class="add-todo">
+      <li>
+        <input type="text" class="txt" placeholder="New Task"
+               ng-model="newTodo" ng-keyup="add($event)" />
+      </li>
+    </ul>
+  </div>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/hammerjs/hammer.js"></script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
