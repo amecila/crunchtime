@@ -10,6 +10,10 @@ div.task-countdown {
     margin: 10px 50px;
 }
 
+.task-done md-button {
+    margin-right:20px;
+}
+
 form > .row {
     display: -webkit-box;
     display: -webkit-flex;

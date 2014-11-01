@@ -26,13 +26,13 @@
   <div id="add-todo">
     <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
       <md-content>
-        <form novalidate style="padding:20px">
-          <div class="row">
-            <md-text-float label="Task" ng-model="newTodo"></md-text-float>
-            <md-text-float label="Date" ng-model="dueDate"></md-text-float>
-            <md-text-float label="Month" ng-model="dueMonth"></md-text-float>
-            <md-text-float label="Year" ng-model="dueYear"></md-text-float>
-            <md-button ng-click="add()">Add Task</md-button>
+        <form name="addForm" novalidate style="padding:20px">
+          <div layout="vertical" layout-md="horizontal" layout-align="center center">
+            <md-text-float label="Task" ng-model="newTodo" required></md-text-float>
+            <md-text-float label="Date" ng-model="dueDate" type="number" required></md-text-float>
+            <md-text-float label="Month" ng-model="dueMonth" type="number" required></md-text-float>
+            <md-text-float label="Year" ng-model="dueYear" type="number" required></md-text-float>
+            <md-button ng-click="add()" class="md-raised md-primary" ng-disabled="!addForm.$valid">Add Task</md-button>
           </div>
           </form>
       </md-content>
@@ -44,7 +44,7 @@
         <div class="task-desc">{{todo.description}}</div>
         <div class="task-countdown">{{todo.countdown}}</div>
       </div>
-      <div class="md-tile-right task-done"><md-button ng-click="done($index)" class="md-primary">Done</md-button></div>
+      <div class="md-tile-right task-done"><md-button ng-click="done($index)" class="md-raised">Done</md-button></div>
     </md-whiteframe>
   </div>
 </div>
