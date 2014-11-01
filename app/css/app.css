@@ -10,6 +10,10 @@ div.task-countdown {
     margin: 10px 50px;
 }
 
+.add-todo md-whiteframe {
+    margin-bottom: 15px;
+}
+
 .task-done md-button {
     margin-right:20px;
 }
