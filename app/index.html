@@ -32,6 +32,7 @@
       <ul class="todo-list" ng-repeat="todo in todos">
         <li>
           <span>{{todo.description}}</span>
+          <span>{{todo.countdown}}</span>
           <button ng-click="done($index)">Done</button>
         </li>
       </ul>

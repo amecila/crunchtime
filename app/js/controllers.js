@@ -11,25 +11,24 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $interval
 
   $scope.add = function(e) {
     if (e.which && e.which === 13) { //13 is the enter button
-      var newTask = {description: $scope.newTodo, startTime: new Date(), endTime: null}; // TODO: set endTime
+      var newTask = {description: $scope.newTodo, startTime: new Date(), endTime: new Date(2014, 11, 30)}; // TODO: set endTime
       $scope.todos.push(newTask);
       $scope.newTodo = '';
     }
   };
 
-  $scope.countdown = function() {
-    var endDate = new Date(2014, 10, 20);
-
-    function updateCountdown() {
-      var now = new Date();
-      if (endDate > now) {
-        $scope.countdown = ((enddate - now) / (1000 * 60 * 60 * 24)).toFixed(6) + " days remain 'til due"
+  function updateCountdown() {
+    var now = new Date();
+    for (var i = 0; i < $scope.todos.length; i++) {
+      var todo = $scope.todos[i];
+      if (todo.endTime > now) {
+        todo.countdown = ((todo.endTime - now) / (1000 * 60 * 60 * 24)).toFixed(6);
       } else {
-        $scope.countdown = "OVERDUE";
+        todo.countdown = "OVERDUE";
       }
     }
-
-    $interval(updatecountdown, 30)
   }
+
+  $interval(updateCountdown, 30);
 
 });
