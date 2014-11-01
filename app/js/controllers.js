@@ -11,7 +11,8 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $interval
 
   $scope.add = function(e) {
     if (e.which && e.which === 13) { //13 is the enter button
-      $scope.todos.push($scope.newTodo);
+      var newTask = {description: $scope.newTodo, startTime: new Date(), endTime: null}; // TODO: set endTime
+      $scope.todos.push(newTask);
       $scope.newTodo = '';
     }
   };

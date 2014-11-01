@@ -19,26 +19,26 @@
 <body>
 <div layout="vertical" layout-align="start center">
   <div><h1>Crunchtime</h1></div>
-</div>
-
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
   <div ng-controller="crunchtimeAppCtrl">
     <div id="add-todo">
-      <input type="text" class="txt" placeholder="New Task"
+      <input type="text" placeholder="New Task"
            ng-model="newTodo" ng-keyup="add($event)" />
     </div>
     <h2>You've got {{todos.length}} things to do:</h2>
       <ul class="todo-list" ng-repeat="todo in todos">
         <li>
-          <span>{{todo}}</span>
+          <span>{{todo.description}}</span>
           <button ng-click="done($index)">Done</button>
         </li>
       </ul>
 
   </div>
+</div>
+
 
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
