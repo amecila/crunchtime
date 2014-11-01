@@ -2,7 +2,7 @@
 
 var crunchtimeControllers = angular.module("crunchtimeControllers", []);
 
-crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope) {
+crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $interval) {
   $scope.todos = [];
 
   $scope.done = function(index) {
@@ -15,5 +15,20 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope) {
       $scope.newTodo = '';
     }
   };
+
+  $scope.countdown = function() {
+    var endDate = new Date(2014, 10, 20);
+
+    function updateCountdown() {
+      var now = new Date();
+      if (endDate > now) {
+        $scope.countdown = ((enddate - now) / (1000 * 60 * 60 * 24)).toFixed(6) + " days remain 'til due"
+      } else {
+        $scope.countdown = "OVERDUE";
+      }
+    }
+
+    $interval(updatecountdown, 30)
+  }
 
 });
