@@ -2,7 +2,7 @@
 
 var crunchtimeControllers = angular.module("crunchtimeControllers", []);
 
-crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $interval) {
+crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast, $interval) {
   $scope.todos = [
     {description: "something very very long", startTime: new Date(), endTime: new Date(2014, 11, 30)},
     {description: 'short', startTime: new Date(), endTime: new Date(2014, 11, 30)},
@@ -19,7 +19,12 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $interval
 
   resetDateModels();
 
-  $scope.done = function(index) {
+  $scope.done = function(description) {
+    var index;
+    for (var i = 0; i < $scope.todos.length; i++) {
+      if ($scope.todos[i].description === description) index = i;
+    }
+    $scope.toastIt($scope.todos[index].description);
     $scope.todos.splice(index, 1);
   };
 
@@ -54,9 +59,15 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $interval
       else if (todo.percentageCompleted <= 100) todo.theme = 'orange';
       else todo.theme = 'red';
     }
-
   }
 
   $interval(updateCountdown, 30);
 
+  $scope.toastIt = function (task) {
+    $mdToast.show({
+      template: '<md-toast>Finished ' + task + '</md-toast>',
+      hideDelay: 2000,
+      position: 'right bottom'
+    });
+  };
 });

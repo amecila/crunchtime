@@ -50,7 +50,7 @@
           <div class="task-countdown">{{todo.countdown}}</div>
           <md-progress-linear mode="determinate" ng-value="todo.percentageCompleted"></md-progress-linear>
         </div>
-        <div class="md-tile-right task-done"><md-button ng-click="done($index)" class="md-raised">Done</md-button></div>
+        <div class="md-tile-right task-done"><md-button ng-click="done(todo.description)" class="md-raised">Done</md-button></div>
       </md-whiteframe>
     </md-content>
   </div>
