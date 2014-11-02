@@ -25,10 +25,8 @@
 <div></div>
   <div><h1>crunchtime.</h1> </div>
   <div flex md-theme="orange">
-    <md-button ng-click="googleAuth()" class="md-button" aria-label="Sign in with Google" ng-hide="authClient.user">Sign in with Google.</md-button>
+    <md-button ng-click="googleAuth()" class="md-button" aria-label="Sign in with Google" ng-hide="loggedIn">Sign in with Google.</md-button>
   </div>
-
-  {{todos}}
 
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -63,8 +61,8 @@
   </div>
 
   <div flex md-theme="orange">
-    <md-button ng-click="googleDeauth()" class="md-button" aria-label="Sign out" ng-show="authClient.user">
-    Hi {{authClient.user.displayName}}. Sign out?</md-button>
+    <md-button ng-click="googleDeauth()" class="md-button" aria-label="Sign out" ng-show="loggedIn">
+    Sign out?</md-button>
   </div>
 
 </div>

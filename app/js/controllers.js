@@ -6,12 +6,24 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
 
   var ref = new Firebase("https://crunchtimedb.firebaseio.com/");
   var userRef;
+  $scope.loggedIn = false;
   ref.onAuth(function(authData) {
     if (authData) {
       userRef = new Firebase("https://crunchtimedb.firebaseio.com/users/").child(authData.uid);
-      $scope.todos = $firebase(userRef).$asArray();
+      userRef.on('value', function(snap) {$scope.todos = snap.val(); });
+      $scope.loggedIn = true;
+    } else {
+      $scope.loggedIn = false;
     }
   });
+
+  var authData = ref.getAuth();
+  if (authData) {
+    console.log('already logged in');
+    userRef = new Firebase("https://crunchtimedb.firebaseio.com/users/").child(authData.uid);
+    userRef.on('value', function(snap) {$scope.todos = snap.val(); });
+    $scope.loggedIn = true;
+  }
 
   $scope.googleAuth = function() {
     ref.authWithOAuthPopup('google', function(err, authData) {
@@ -47,14 +59,14 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
     }
     $scope.toastIt($scope.todos[index].description);
     $scope.todos.splice(index, 1);
-    userRef.set($scope.todos);
+    userRef.set(angular.copy($scope.todos));
   };
 
   $scope.add = function() {
     var dueDate = (new Date($scope.dueYear, $scope.dueMonth - 1, $scope.dueDate)).getTime();
     var newTask = {description: $scope.newTodo, startTime: (new Date()).getTime(), endTime: dueDate};
     $scope.todos.push(newTask);
-    userRef.set($scope.todos);
+    userRef.set(angular.copy($scope.todos));
     $scope.newTodo = '';
     resetDateModels();
   };
