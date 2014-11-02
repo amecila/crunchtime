@@ -10,7 +10,10 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
   ref.onAuth(function(authData) {
     if (authData) {
       userRef = new Firebase("https://crunchtimedb.firebaseio.com/users/").child(authData.uid);
-      userRef.on('value', function(snap) {$scope.todos = snap.val(); });
+      userRef.on('value', function(snap) {
+        $scope.todos = snap.val();
+        if (!$scope.todos) $scope.todos = [];
+      });
       $scope.loggedIn = true;
     } else {
       $scope.loggedIn = false;
@@ -21,7 +24,10 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
   if (authData) {
     console.log('already logged in');
     userRef = new Firebase("https://crunchtimedb.firebaseio.com/users/").child(authData.uid);
-    userRef.on('value', function(snap) {$scope.todos = snap.val(); });
+    userRef.on('value', function(snap) {
+      $scope.todos = snap.val();
+      if (!$scope.todos) $scope.todos = [];
+    });
     $scope.loggedIn = true;
   }
 
