@@ -2,12 +2,33 @@
 
 var crunchtimeControllers = angular.module("crunchtimeControllers", []);
 
-crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast, $interval) {
-  $scope.todos = [
-    {description: "something very very long", startTime: new Date(), endTime: new Date(2014, 11, 30)},
-    {description: 'short', startTime: new Date(), endTime: new Date(2014, 11, 30)},
-    {description: 'almost done', startTime: new Date(2014, 9, 30), endTime: new Date(2014, 10, 2)}
-  ];
+crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast, $firebase, $interval) {
+
+  var ref = new Firebase("https://crunchtimedb.firebaseio.com/");
+  var userRef;
+  ref.onAuth(function(authData) {
+    if (authData) {
+      userRef = new Firebase("https://crunchtimedb.firebaseio.com/users/").child(authData.uid);
+      $scope.todos = $firebase(userRef).$asArray();
+    }
+  });
+
+  $scope.googleAuth = function() {
+    ref.authWithOAuthPopup('google', function(err, authData) {
+      if (err) console.log("Login failed: ", err);
+      else console.log("Logged in as ", authData.uid);
+    });
+  };
+
+  $scope.googleDeauth = function() {
+    ref.unauth();
+  };
+
+   $scope.todos = [
+    // {description: "something very very long", startTime: new Date(), endTime: new Date(2014, 11, 30)},
+    // {description: 'short', startTime: new Date(), endTime: new Date(2014, 11, 30)},
+    // {description: 'almost done', startTime: new Date(2014, 9, 30), endTime: new Date(2014, 10, 2)}
+   ];
 
   var today = new Date();
 
@@ -26,12 +47,14 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
     }
     $scope.toastIt($scope.todos[index].description);
     $scope.todos.splice(index, 1);
+    userRef.set($scope.todos);
   };
 
   $scope.add = function() {
-    var dueDate = new Date($scope.dueYear, $scope.dueMonth - 1, $scope.dueDate);
-    var newTask = {description: $scope.newTodo, startTime: new Date(), endTime: dueDate};
+    var dueDate = (new Date($scope.dueYear, $scope.dueMonth - 1, $scope.dueDate)).getTime();
+    var newTask = {description: $scope.newTodo, startTime: (new Date()).getTime(), endTime: dueDate};
     $scope.todos.push(newTask);
+    userRef.set($scope.todos);
     $scope.newTodo = '';
     resetDateModels();
   };
@@ -54,7 +77,11 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
     for (var i = 0; i < $scope.todos.length; i++) {
       var todo = $scope.todos[i];
       todo.percentageCompleted = (now - todo.startTime) / (todo.endTime - todo.startTime) * 100;
-      if (todo.percentageCompleted < 33) todo.theme = 'green';
+      if (todo.percentageCompleted < 0 || todo.percentageCompleted === null) {
+        todo.theme = 'red';
+        todo.percentageCompleted = 100;
+      }
+      else if (todo.percentageCompleted < 33) todo.theme = 'green';
       else if (todo.percentageCompleted < 67) todo.theme = 'yellow';
       else if (todo.percentageCompleted <= 100) todo.theme = 'orange';
       else todo.theme = 'red';
@@ -65,7 +92,11 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
 
   $scope.toastIt = function (task) {
     $mdToast.show({
-      template: '<md-toast>Finished ' + task + '</md-toast>',
+      template: '<md-toast>Finished {{toastCtrl.task}}</md-toast>',
+      controller: function() {
+        this.task = task;
+      },
+      controllerAs: 'toastCtrl',
       hideDelay: 2000,
       position: 'right bottom'
     });

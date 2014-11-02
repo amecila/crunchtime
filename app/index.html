@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Crunchtime - the Crunchtime To-Do List</title>
+  <title>crunchtime.</title>
   <meta name="description" content="">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
@@ -22,13 +22,19 @@
 </head>
 <body ng-controller="crunchtimeAppCtrl">
 <div layout="vertical" layout-align="start center">
-  <div><h1>Crunchtime</h1></div>
+<div></div>
+  <div><h1>crunchtime.</h1> </div>
+  <div flex md-theme="orange">
+    <md-button ng-click="googleAuth()" class="md-button" aria-label="Sign in with Google" ng-hide="authClient.user">Sign in with Google.</md-button>
+  </div>
+
+  {{todos}}
+
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
-
   <div class="add-todo">
-    <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
+    <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center" md-theme="orange">
       <md-content>
         <form name="addForm" novalidate style="padding:20px">
           <div layout="vertical" layout-md="horizontal" layout-align="center center" class="row">
@@ -36,24 +42,31 @@
             <md-text-float label="Date" ng-model="dueDate" type="number" required></md-text-float>
             <md-text-float label="Month" ng-model="dueMonth" type="number" required></md-text-float>
             <md-text-float label="Year" ng-model="dueYear" type="number" required></md-text-float>
-            <md-button ng-click="add()" class="md-raised md-primary" ng-disabled="!addForm.$valid">Add Task</md-button>
+            <md-button ng-click="add()" class="md-raised md-primary" ng-disabled="!addForm.$valid" aria-label="Add Task">Add Task</md-button>
           </div>
           </form>
       </md-content>
     </md-whiteframe>
   </div>
+
   <div layout="vertical" layout-fill class="task-list">
     <md-content ng-repeat="todo in todos | orderBy: 'endTime'" >
-      <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center" md-theme="{{todo.theme}}">
+      <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center" md-theme="{{todo.theme}}" md-theme-watch="true">
         <div class=" md-tile-content">
           <div class="task-desc">{{todo.description}}</div>
           <div class="task-countdown">{{todo.countdown}}</div>
-          <md-progress-linear mode="determinate" ng-value="todo.percentageCompleted"></md-progress-linear>
+          <md-progress-linear mode="determinate" ng-value="todo.percentageCompleted" md-theme-watch="true"></md-progress-linear>
         </div>
-        <div class="md-tile-right task-done"><md-button ng-click="done(todo.description)" class="md-raised">Done</md-button></div>
+        <div class="md-tile-right task-done"><md-button ng-click="done(todo.description)" class="md-raised" aria-label="Done with {{todo.description}}">Done</md-button></div>
       </md-whiteframe>
     </md-content>
   </div>
+
+  <div flex md-theme="orange">
+    <md-button ng-click="googleDeauth()" class="md-button" aria-label="Sign out" ng-show="authClient.user">
+    Hi {{authClient.user.displayName}}. Sign out?</md-button>
+  </div>
+
 </div>
 
 
@@ -61,6 +74,9 @@
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 -->
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/firebase/firebase.js"></script>
+<script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+<script src="bower_components/firebase-simple-login/firebase-simple-login.js"></script>
 <script src="bower_components/angular-aria/angular-aria.js"></script>
 <script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="bower_components/hammerjs/hammer.js"></script>
