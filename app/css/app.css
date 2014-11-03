@@ -7,7 +7,9 @@ div.task-countdown {
     font-size: 25px;
 }
 .task-list md-whiteframe {
-    margin: 10px 50px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-bottom: 10px;
 }
 
 .add-todo md-whiteframe {

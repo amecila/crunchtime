@@ -50,7 +50,7 @@
 
   <div layout="vertical" layout-fill class="task-list">
     <md-content ng-repeat="todo in todos | orderBy: 'endTime'" >
-      <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center" md-theme="{{todo.theme}}" md-theme-watch="true">
+      <md-whiteframe class="md-whiteframe-z2" layout layout-align="center center" md-theme="{{todo.theme}}" md-theme-watch="true">
         <div class=" md-tile-content">
           <div class="task-desc">{{todo.description}}</div>
           <div class="task-countdown">{{todo.countdown}}</div>

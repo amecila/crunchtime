@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
+  "name": "crunchtime",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "description": "A to-do list for crunchtime",
+  "repository": "https://github.com/ty84/crunchtime",
   "license": "MIT",
   "devDependencies": {
     "karma": "~0.10",

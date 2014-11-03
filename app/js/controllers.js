@@ -25,7 +25,7 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
   ref.onAuth(onAuth);
 
   var authData = ref.getAuth();
-  onAuth();
+  onAuth(authData);
 
   $scope.googleAuth = function() {
     ref.authWithOAuthPopup('google', function(err, authData) {
