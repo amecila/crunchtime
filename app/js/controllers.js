@@ -7,29 +7,25 @@ crunchtimeControllers.controller('crunchtimeAppCtrl', function($scope, $mdToast,
   var ref = new Firebase("https://crunchtimedb.firebaseio.com/");
   var userRef;
   $scope.loggedIn = false;
-  ref.onAuth(function(authData) {
+  var onAuth = function(authData) {
     if (authData) {
       userRef = new Firebase("https://crunchtimedb.firebaseio.com/users/").child(authData.uid);
       userRef.on('value', function(snap) {
-        $scope.todos = snap.val();
-        if (!$scope.todos) $scope.todos = [];
+        if (authData) {
+          $scope.todos = snap.val();
+          if (!$scope.todos) $scope.todos = [];
+        }
       });
       $scope.loggedIn = true;
     } else {
       $scope.loggedIn = false;
+      $scope.todos = [];
     }
-  });
+  };
+  ref.onAuth(onAuth);
 
   var authData = ref.getAuth();
-  if (authData) {
-    console.log('already logged in');
-    userRef = new Firebase("https://crunchtimedb.firebaseio.com/users/").child(authData.uid);
-    userRef.on('value', function(snap) {
-      $scope.todos = snap.val();
-      if (!$scope.todos) $scope.todos = [];
-    });
-    $scope.loggedIn = true;
-  }
+  onAuth();
 
   $scope.googleAuth = function() {
     ref.authWithOAuthPopup('google', function(err, authData) {
